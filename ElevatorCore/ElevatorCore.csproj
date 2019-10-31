@@ -41,8 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Abstract\IElevatorController.cs" />
+    <Compile Include="Abstract\IElevatorState.cs" />
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="Concrete\ElevatorMoving.cs" />
+    <Compile Include="Concrete\ElevatorStationary.cs" />
+    <Compile Include="Elevator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

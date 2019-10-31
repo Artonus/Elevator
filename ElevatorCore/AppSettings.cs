@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ElevatorCore
 {
-    public class Class1
+    public static class AppSettings
     {
+        public static int NumberOfFloors => 2;
     }
 }
