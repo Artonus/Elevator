@@ -12,13 +12,11 @@ namespace ElevatorCore
     {
         public IElevatorState CurrentState { get; private set; }
 
-        private int CurrentFloor = 0;
+        public int CurrentFloor { get; set; }
         public Elevator()
         {
             this.CurrentState = new ElevatorStationary(this);
         }
-        
-
         public void SetState(IElevatorState elevatorState)
         {
             this.CurrentState = elevatorState;

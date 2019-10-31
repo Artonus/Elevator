@@ -14,11 +14,16 @@ namespace ElevatorUI.Controls
 {
     public partial class ControlPanelControl : UserControl, IElevatorController
     {
+        private Action<int> SetFloorOnButtonClickAction;
         public ControlPanelControl()
         {
             InitializeComponent();
-
             InitializeButtons();
+        }
+
+        public void Init(Action<int> setFloorOnButtonClickAction)
+        {
+            SetFloorOnButtonClickAction = setFloorOnButtonClickAction;
         }
 
         private void InitializeButtons()
@@ -40,7 +45,9 @@ namespace ElevatorUI.Controls
         private void FloorCallClick(object sender, EventArgs e)
         {
             var btn = sender as Button;
-            this.tbFloorNumber.Text = ((int) btn?.Tag).ToString();
+            var flrNumber = (int)btn?.Tag;
+            this.tbFloorNumber.Text = flrNumber.ToString();
+            SetFloorOnButtonClickAction(flrNumber);
         }
 
         public void SetFloor(int floorNumber)

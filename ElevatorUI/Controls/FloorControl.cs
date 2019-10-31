@@ -7,24 +7,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ElevatorCore.Abstract;
 
 namespace ElevatorUI.Controls
 {
-    public partial class FloorControl : UserControl
+    public partial class FloorControl : UserControl, IFloor
     {
-        private Action<int> callElevatorAction;
-        public int FloorNumber { get; private set; }
+        private Action<int> CallElevatorAction;
+        private int FloorNumber { get; }
         public FloorControl(int floorNumber, Action<int> callElevatorAction)
         {
             InitializeComponent();
-            FloorNumber = floorNumber;
+            this.FloorNumber = floorNumber;
             this.lbFloor.Text = $"Floor {floorNumber}";
-            this.callElevatorAction = callElevatorAction;
+            this.CallElevatorAction = callElevatorAction;
         }
 
         private void btnCallElevator_Click(object sender, EventArgs e)
         {
-            callElevatorAction(this.FloorNumber);
+            CallElevatorAction(this.FloorNumber);
+        }
+
+        public void SetElevatorOnFloorDisplay(int floorNumber)
+        {
+            this.lbCurrentFloor.Text = floorNumber.ToString();
         }
     }
 }

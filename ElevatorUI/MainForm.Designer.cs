@@ -35,8 +35,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnLogs = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.controlPanel = new ElevatorUI.Controls.ControlPanelControl();
             this.elevatorMoveTimer = new System.Windows.Forms.Timer(this.components);
-            this.controlPanelControl1 = new ElevatorUI.Controls.ControlPanelControl();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvLogs)).BeginInit();
             this.panel3.SuspendLayout();
@@ -99,25 +99,25 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.controlPanelControl1);
+            this.panel2.Controls.Add(this.controlPanel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(242, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(164, 576);
             this.panel2.TabIndex = 4;
             // 
+            // controlPanel
+            // 
+            this.controlPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.controlPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.controlPanel.Location = new System.Drawing.Point(0, 386);
+            this.controlPanel.Name = "controlPanel";
+            this.controlPanel.Size = new System.Drawing.Size(164, 190);
+            this.controlPanel.TabIndex = 3;
+            // 
             // elevatorMoveTimer
             // 
             this.elevatorMoveTimer.Interval = 20;
-            // 
-            // controlPanelControl1
-            // 
-            this.controlPanelControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.controlPanelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.controlPanelControl1.Location = new System.Drawing.Point(0, 386);
-            this.controlPanelControl1.Name = "controlPanelControl1";
-            this.controlPanelControl1.Size = new System.Drawing.Size(164, 190);
-            this.controlPanelControl1.TabIndex = 3;
             // 
             // MainForm
             // 
@@ -142,7 +142,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnLogs;
         private System.Windows.Forms.Panel panel2;
-        private Controls.ControlPanelControl controlPanelControl1;
+        private Controls.ControlPanelControl controlPanel;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Timer elevatorMoveTimer;
         private System.Windows.Forms.DataGridView gvLogs;

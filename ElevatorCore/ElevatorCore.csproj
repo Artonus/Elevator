@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IElevatorController.cs" />
     <Compile Include="Abstract\IElevatorState.cs" />
+    <Compile Include="Abstract\IFloor.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="Concrete\ElevatorMoving.cs" />
     <Compile Include="Concrete\ElevatorStationary.cs" />

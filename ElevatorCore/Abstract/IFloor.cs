@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElevatorCore
+namespace ElevatorCore.Abstract
 {
-    public static class AppSettings
+    public interface IFloor
     {
-        public static int NumberOfFloors => 3;
+        void SetElevatorOnFloorDisplay(int floorNumber);
+
     }
 }
