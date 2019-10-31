@@ -13,24 +13,29 @@ namespace ElevatorUI.Controls
 {
     public partial class FloorControl : UserControl, IFloor
     {
-        private Action<int> CallElevatorAction;
+        private readonly Action<int> _callElevatorAction;
         private int FloorNumber { get; }
         public FloorControl(int floorNumber, Action<int> callElevatorAction)
         {
             InitializeComponent();
-            this.FloorNumber = floorNumber;
-            this.lbFloor.Text = $"Floor {floorNumber}";
-            this.CallElevatorAction = callElevatorAction;
+            FloorNumber = floorNumber;
+            lbFloor.Text = $"Floor {floorNumber}";
+            _callElevatorAction = callElevatorAction;
         }
 
         private void btnCallElevator_Click(object sender, EventArgs e)
         {
-            CallElevatorAction(this.FloorNumber);
+            _callElevatorAction(this.FloorNumber);
         }
 
         public void SetElevatorOnFloorDisplay(int floorNumber)
         {
             this.lbCurrentFloor.Text = floorNumber.ToString();
+        }
+
+        public void CloseElevatorDoor(int floorNumber)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -40,34 +40,38 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(112, 60);
+            this.panel1.Size = new System.Drawing.Size(84, 49);
             this.panel1.TabIndex = 0;
             // 
             // tbFloorNumber
             // 
-            this.tbFloorNumber.Location = new System.Drawing.Point(3, 30);
+            this.tbFloorNumber.Location = new System.Drawing.Point(2, 24);
+            this.tbFloorNumber.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbFloorNumber.Name = "tbFloorNumber";
-            this.tbFloorNumber.Size = new System.Drawing.Size(106, 22);
+            this.tbFloorNumber.Size = new System.Drawing.Size(80, 20);
             this.tbFloorNumber.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 10);
+            this.label1.Location = new System.Drawing.Point(2, 8);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 17);
+            this.label1.Size = new System.Drawing.Size(64, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Current floor";
             // 
             // ControlPanelControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ControlPanelControl";
-            this.Size = new System.Drawing.Size(112, 194);
+            this.Size = new System.Drawing.Size(84, 158);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
