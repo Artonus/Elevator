@@ -9,5 +9,6 @@ namespace ElevatorCore
     public static class AppSettings
     {
         public static int NumberOfFloors => 3;
+        public static int TimerInterval => 15;
     }
 }

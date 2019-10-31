@@ -9,6 +9,6 @@ namespace ElevatorCore.Abstract
     public interface IFloor
     {
         void SetElevatorOnFloorDisplay(int floorNumber);
-
+        void CloseElevatorDoor(int floorNumber);
     }
 }
