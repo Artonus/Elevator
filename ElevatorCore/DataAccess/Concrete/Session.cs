@@ -9,7 +9,7 @@ using ElevatorCore.DataAccess.Model;
 
 namespace ElevatorCore.DataAccess.Concrete
 {
-    class Session : ISession
+    public class Session : ISession
     {
         private ElevatorContext _context;
 

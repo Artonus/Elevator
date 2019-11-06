@@ -14,6 +14,8 @@ namespace ElevatorCore
 
         public const int MinimumFloorCount = 2;
 
+        public const int FloorHeight = 190;
+
         public static void SetNumberOfFloors(int numberOfFloors)
         {
             NumberOfFloors = numberOfFloors;

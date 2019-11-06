@@ -9,11 +9,11 @@ using ElevatorCore.DataAccess.Model;
 
 namespace ElevatorCore.DataAccess
 {
-    class ElevatorContext : DbContext
+    public class ElevatorContext : DbContext
     {
-        public ElevatorContext()
+        public ElevatorContext() : base("Elevator")
         {
-            Database.SetInitializer<ElevatorContext>(null);
+            //Database.SetInitializer<ElevatorContext>(null);
         }
 
         public DbSet<Log> Logs { get; set; }
@@ -21,7 +21,9 @@ namespace ElevatorCore.DataAccess
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             // Database does not pluralize table names
+            Database.SetInitializer<ElevatorContext>(null);
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }

@@ -3,12 +3,17 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ElevatorCore;
+using ElevatorCore.DataAccess;
+using ElevatorCore.DataAccess.Abstract;
+using ElevatorCore.DataAccess.Concrete;
+using ElevatorCore.DataAccess.Model;
 using ElevatorCore.Elevator.Abstract;
 using ElevatorCore.Dialogs;
 using ElevatorCore.Elevator;
@@ -18,8 +23,8 @@ namespace ElevatorUI
 {
     public partial class MainForm : Form
     {
+        private ISession _session;
         private Elevator _elevator;
-        private const int FloorHeight = 190;
         private int _elevatorStartY;
         private int _floorDif;
 
@@ -34,6 +39,7 @@ namespace ElevatorUI
             InitializeFloors();
             _elevator = new Elevator(this.elevatorInShaftPictureBox);
             controlPanel.Init(SetElevatorOnFloorForFloorControls);
+            _session = new Session(new ElevatorContext());
         }
 
         private void InitializeFloors()
@@ -51,6 +57,27 @@ namespace ElevatorUI
         private void btnLogs_Click(object sender, EventArgs e)
         {
             gvLogs.Visible = true;
+            UpdateGridDataSource();
+        }
+
+        private void UpdateGridDataSource()
+        {
+            try
+            {
+                using (var ctx = new ElevatorContext())
+                {
+                    List<Log> lst = ctx.Logs.ToList();
+                }
+                var bindingSource = new BindingSource();
+                var list = _session.Logs.GetAllLogs().ToList();
+                bindingSource.DataSource = list;
+                gvLogs.DataSource = bindingSource;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException?.Message);
+                
+            }
         }
 
         private void ChangeFloor(int floorNumber)
@@ -90,7 +117,7 @@ namespace ElevatorUI
         {
             var x = elevatorInShaftPictureBox.Location.X;
             var y = elevatorInShaftPictureBox.Location.Y;
-            var destLocationY = _elevatorStartY - _floorDif * FloorHeight;
+            var destLocationY = _elevatorStartY - _floorDif * AppSettings.FloorHeight;
 
             var heightDiff = destLocationY - y;
             if (heightDiff == 0)

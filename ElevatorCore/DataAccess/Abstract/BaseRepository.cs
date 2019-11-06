@@ -37,7 +37,7 @@ namespace ElevatorCore.DataAccess.Abstract
 
         public IEnumerable<TRecord> GetAllLogs()
         {
-            return DbSet.AsEnumerable();
+            return DbSet.ToList();
         }
 
         public void Insert(TRecord record)
