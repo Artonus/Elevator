@@ -9,14 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ElevatorCore;
-using ElevatorCore.Abstract;
+using ElevatorCore.Elevator.Abstract;
+using ElevatorCore.Dialogs;
+using ElevatorCore.Elevator;
 using ElevatorUI.Controls;
 
 namespace ElevatorUI
 {
     public partial class MainForm : Form
     {
-        private readonly Elevator _elevator;
+        private Elevator _elevator;
         private const int FloorHeight = 190;
         private int _elevatorStartY;
         private int _floorDif;
@@ -24,8 +26,13 @@ namespace ElevatorUI
         public MainForm()
         {
             InitializeComponent();
+            
+        }
+        private void Init(int numberOfFloors)
+        {
+            AppSettings.SetNumberOfFloors(numberOfFloors);
             InitializeFloors();
-            _elevator = new Elevator();
+            _elevator = new Elevator(this.elevatorInShaftPictureBox);
             controlPanel.Init(SetElevatorOnFloorForFloorControls);
         }
 
@@ -37,7 +44,7 @@ namespace ElevatorUI
                 {
                     Dock = DockStyle.Bottom
                 };
-                floorsPanel.Controls.Add(floor);
+                floorsOuterPanel.Controls.Add(floor);
             }
         }
 
@@ -55,7 +62,7 @@ namespace ElevatorUI
 
         private void MoveElevatorToFloor(int floorNumber)
         {
-            _elevatorStartY = pictureBox1.Location.Y;
+            _elevatorStartY = elevatorInShaftPictureBox.Location.Y;
             var currentFloor = _elevator.CurrentFloor;
 
             _floorDif = (currentFloor - floorNumber) * -1;
@@ -68,7 +75,7 @@ namespace ElevatorUI
 
         private void SetElevatorOnFloorForFloorControls(int floorNumber)
         {
-            foreach (var ctrl in floorsPanel.Controls)
+            foreach (var ctrl in floorsOuterPanel.Controls)
             {
                 if (ctrl is IFloor floor)
                 {
@@ -81,8 +88,8 @@ namespace ElevatorUI
 
         private void elevatorMoveTimer_Tick(object sender, EventArgs e)
         {
-            var x = pictureBox1.Location.X;
-            var y = pictureBox1.Location.Y;
+            var x = elevatorInShaftPictureBox.Location.X;
+            var y = elevatorInShaftPictureBox.Location.Y;
             var destLocationY = _elevatorStartY - _floorDif * FloorHeight;
 
             var heightDiff = destLocationY - y;
@@ -95,7 +102,7 @@ namespace ElevatorUI
             }
 
             var nextY = _floorDif > 0 ? y - 1 : y + 1;
-            pictureBox1.Location = new Point(x, nextY);
+            elevatorInShaftPictureBox.Location = new Point(x, nextY);
         }
 
         private void ToggleWindowResize(bool available)
@@ -103,6 +110,23 @@ namespace ElevatorUI
             this.FormBorderStyle = available ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog;
             MinimizeBox = available;
             MaximizeBox = available;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            var title = "Number of floors";
+            var message =
+                "Please enter how many floors you want to have in the elevator. But please be sensible cause they may not fit onto your screen.\nAdvised is 5 floors max with 100% scaling.";
+            var numDialog = new NumberInputDialog(message, title);
+            var result = numDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Init((int)numDialog.SelectedNumber);
+            }
+            else
+            {
+                Close();
+            }
         }
     }
 }

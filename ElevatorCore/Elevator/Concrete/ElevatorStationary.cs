@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ElevatorCore.Abstract;
+using ElevatorCore.Elevator.Abstract;
 
-namespace ElevatorCore.Concrete
+namespace ElevatorCore.Elevator.Concrete
 {
     class ElevatorStationary : IElevatorState
     {
-        private Elevator _elevator;
+        private ElevatorCore.Elevator.Elevator _elevator;
 
-        public ElevatorStationary(Elevator elevator)
+        public ElevatorStationary(ElevatorCore.Elevator.Elevator elevator)
         {
             _elevator = elevator;
         }
