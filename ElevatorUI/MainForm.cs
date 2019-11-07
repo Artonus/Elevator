@@ -18,12 +18,15 @@ using ElevatorCore.Elevator.Abstract;
 using ElevatorCore.Dialogs;
 using ElevatorCore.Elevator;
 using ElevatorCore.Elevator.Concrete;
+using ElevatorCore.Utils;
+using ElevatorCore.Utils.Abstract;
 using ElevatorUI.Controls;
 
 namespace ElevatorUI
 {
     public partial class MainForm : Form
     {
+        private ILogger _logger;
         private ISession _session;
         private Elevator _elevator;
         private ElevatorPositionHelper _elevatorPosition;
@@ -34,10 +37,12 @@ namespace ElevatorUI
         private void Init(int numberOfFloors)
         {
             AppSettings.SetNumberOfFloors(numberOfFloors);
-            InitializeFloors();
-            _elevator = new Elevator();
-            controlPanel.Init(MoveElevatorIfAllowed);
+            
             _session = new Session(new ElevatorContext());
+            _logger = Logger.Instance(_session);
+            _elevator = new Elevator(_logger);
+            controlPanel.Init(MoveElevatorIfAllowed);
+            InitializeFloors();
             elevatorMoveTimer.Tick += elevatorMoveTimer_Tick;
             elevatorMoveTimer.Interval = AppSettings.TimerInterval;
         }
@@ -46,7 +51,7 @@ namespace ElevatorUI
         {
             for (int i = AppSettings.NumberOfFloors - 1; i >= 0; i--)
             {
-                var floor = new FloorControl(i, MoveElevatorIfAllowed)
+                var floor = new FloorControl(i, MoveElevatorIfAllowed, _logger)
                 {
                     Dock = DockStyle.Bottom
                 };
@@ -64,7 +69,7 @@ namespace ElevatorUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -74,6 +79,9 @@ namespace ElevatorUI
             var list = _session.Logs.GetAllLogs().ToList();
             bindingSource.DataSource = list;
             gvLogs.DataSource = bindingSource;
+
+            gvLogs.Columns[nameof(Log.ID)].Visible = false;
+            gvLogs.Sort(gvLogs.Columns[nameof(Log.ID)], ListSortDirection.Descending);
         }
 
         private void MoveElevatorIfAllowed(int floorNumber)
@@ -127,7 +135,8 @@ namespace ElevatorUI
                 elevatorMoveTimer.Stop();
                 elevatorMoveTimer.Enabled = false;
                 ToggleWindowResize(true);
-                _elevator.SetState(new ElevatorStationary(_elevator));
+                _elevator.SetState(new ElevatorStationary(_elevator, _logger));
+                _logger.LogElevatorArrivedAtFloor(_elevator.CurrentFloor);
                 return;
             }
 
@@ -150,13 +159,10 @@ namespace ElevatorUI
             var numDialog = new NumberInputDialog(message, title);
             var result = numDialog.ShowDialog();
             if (result == DialogResult.OK)
-            {
                 Init((int)numDialog.SelectedNumber);
-            }
             else
-            {
                 Close();
-            }
+
         }
     }
 }
