@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElevatorCore.DataAccess.Model
 {
-    public class Log
+    public class Logs
     {
         [Key]
         public int ID { get; set; }
