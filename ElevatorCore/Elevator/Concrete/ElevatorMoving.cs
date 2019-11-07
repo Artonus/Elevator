@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ElevatorCore.Abstract;
+using ElevatorCore.Elevator.Abstract;
 
-namespace ElevatorCore.Concrete
+namespace ElevatorCore.Elevator.Concrete
 {
     class ElevatorMoving : IElevatorState
     {

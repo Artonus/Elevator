@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ElevatorCore;
-using ElevatorCore.Abstract;
+using ElevatorCore.Elevator.Abstract;
 
 namespace ElevatorUI.Controls
 {
@@ -18,27 +18,30 @@ namespace ElevatorUI.Controls
         public ControlPanelControl()
         {
             InitializeComponent();
-            InitializeButtons();
         }
 
         public void Init(Action<int> setFloorOnButtonClickAction)
         {
             SetFloorOnButtonClickAction = setFloorOnButtonClickAction;
+            InitializeButtons();
         }
 
         private void InitializeButtons()
         {
-            for (int i = AppSettings.NumberOfFloors -1; i >= 0; i--)
+            var controlWidth = Width;
+            for (int i = 0; i < AppSettings.NumberOfFloors; i++)
             {
                 var btn = new Button
                 {
                     Tag = i,
                     Text = $"Floor {i}",
                     Name = $"btnFloor{i}",
-                    Dock = DockStyle.Bottom
+                    Anchor = AnchorStyles.Top,
+                    Width = controlWidth,
+                    Dock = DockStyle.Top
                 };
                 btn.Click += FloorCallClick;
-                this.Controls.Add(btn);
+                controlButtonsPanel.Controls.Add(btn);
             }
         }
 

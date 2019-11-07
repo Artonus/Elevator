@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ElevatorCore.Abstract;
+using ElevatorCore.Elevator.Abstract;
 
 namespace ElevatorUI.Controls
 {
@@ -35,6 +35,12 @@ namespace ElevatorUI.Controls
 
         public void CloseElevatorDoor(int floorNumber)
         {
+            throw new NotImplementedException();
+        }
+
+        public void OpenElevatorDoor(int floorNumber)
+        {
+
             throw new NotImplementedException();
         }
     }
