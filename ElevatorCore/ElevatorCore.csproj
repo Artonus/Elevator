@@ -62,7 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\Abstract\BaseRepository.cs" />
+    <Compile Include="DataAccess\Concrete\BaseRepository.cs" />
     <Compile Include="DataAccess\Abstract\IRepository.cs" />
     <Compile Include="DataAccess\Abstract\ISession.cs" />
     <Compile Include="DataAccess\Concrete\Session.cs" />
@@ -73,6 +73,7 @@
     <Compile Include="Elevator\Abstract\IFloor.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="Elevator\Concrete\ElevatorMoving.cs" />
+    <Compile Include="Elevator\Concrete\ElevatorPositionHelper.cs" />
     <Compile Include="Elevator\Concrete\ElevatorStationary.cs" />
     <Compile Include="Dialogs\NumberInputDialog.cs">
       <SubType>Form</SubType>

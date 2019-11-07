@@ -14,15 +14,15 @@ namespace ElevatorUI.Controls
 {
     public partial class ControlPanelControl : UserControl, IElevatorController
     {
-        private Action<int> SetFloorOnButtonClickAction;
+        private Action<int> _changeFloorIfAllowedAction;
         public ControlPanelControl()
         {
             InitializeComponent();
         }
 
-        public void Init(Action<int> setFloorOnButtonClickAction)
+        public void Init(Action<int> changeFloorIfAllowed)
         {
-            SetFloorOnButtonClickAction = setFloorOnButtonClickAction;
+            _changeFloorIfAllowedAction = changeFloorIfAllowed;
             InitializeButtons();
         }
 
@@ -49,8 +49,7 @@ namespace ElevatorUI.Controls
         {
             var btn = sender as Button;
             var flrNumber = (int)btn?.Tag;
-            this.tbFloorNumber.Text = flrNumber.ToString();
-            SetFloorOnButtonClickAction(flrNumber);
+            _changeFloorIfAllowedAction(flrNumber);
         }
 
         public void SetFloor(int floorNumber)

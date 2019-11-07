@@ -98,13 +98,14 @@
             this.btnLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLogs.BackColor = System.Drawing.Color.Transparent;
             this.btnLogs.Location = new System.Drawing.Point(61, 32);
             this.btnLogs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLogs.Name = "btnLogs";
             this.btnLogs.Size = new System.Drawing.Size(264, 38);
             this.btnLogs.TabIndex = 1;
             this.btnLogs.Text = "Show Logs";
-            this.btnLogs.UseVisualStyleBackColor = true;
+            this.btnLogs.UseVisualStyleBackColor = false;
             this.btnLogs.Click += new System.EventHandler(this.btnLogs_Click);
             // 
             // panel2
@@ -130,7 +131,6 @@
             // elevatorMoveTimer
             // 
             this.elevatorMoveTimer.Interval = 20;
-            this.elevatorMoveTimer.Tick += new System.EventHandler(this.elevatorMoveTimer_Tick);
             // 
             // elevatorShaft
             // 

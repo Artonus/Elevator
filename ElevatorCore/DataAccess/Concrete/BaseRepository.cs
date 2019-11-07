@@ -4,8 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ElevatorCore.DataAccess.Abstract;
 
-namespace ElevatorCore.DataAccess.Abstract
+namespace ElevatorCore.DataAccess.Concrete
 {
     class BaseRepository<TRecord> : IRepository<TRecord> where TRecord : class
     {

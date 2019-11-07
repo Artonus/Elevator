@@ -17,6 +17,7 @@ using ElevatorCore.DataAccess.Model;
 using ElevatorCore.Elevator.Abstract;
 using ElevatorCore.Dialogs;
 using ElevatorCore.Elevator;
+using ElevatorCore.Elevator.Concrete;
 using ElevatorUI.Controls;
 
 namespace ElevatorUI
@@ -25,28 +26,27 @@ namespace ElevatorUI
     {
         private ISession _session;
         private Elevator _elevator;
-        private int _elevatorStartY;
-        private int _floorDif;
-
+        private ElevatorPositionHelper _elevatorPosition;
         public MainForm()
         {
             InitializeComponent();
-            
         }
         private void Init(int numberOfFloors)
         {
             AppSettings.SetNumberOfFloors(numberOfFloors);
             InitializeFloors();
-            _elevator = new Elevator(this.elevatorInShaftPictureBox);
-            controlPanel.Init(SetElevatorOnFloorForFloorControls);
+            _elevator = new Elevator();
+            controlPanel.Init(MoveElevatorIfAllowed);
             _session = new Session(new ElevatorContext());
+            elevatorMoveTimer.Tick += elevatorMoveTimer_Tick;
+            elevatorMoveTimer.Interval = AppSettings.TimerInterval;
         }
 
         private void InitializeFloors()
         {
             for (int i = AppSettings.NumberOfFloors - 1; i >= 0; i--)
             {
-                var floor = new FloorControl(i, ChangeFloor)
+                var floor = new FloorControl(i, MoveElevatorIfAllowed)
                 {
                     Dock = DockStyle.Bottom
                 };
@@ -56,47 +56,52 @@ namespace ElevatorUI
 
         private void btnLogs_Click(object sender, EventArgs e)
         {
-            gvLogs.Visible = true;
-            UpdateGridDataSource();
-        }
-
-        private void UpdateGridDataSource()
-        {
             try
             {
-                using (var ctx = new ElevatorContext())
-                {
-                    List<Log> lst = ctx.Logs.ToList();
-                }
-                var bindingSource = new BindingSource();
-                var list = _session.Logs.GetAllLogs().ToList();
-                bindingSource.DataSource = list;
-                gvLogs.DataSource = bindingSource;
+                _session.Commit();
+                gvLogs.Visible = true;
+                UpdateGridDataSource();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                
             }
+        }
+
+        private void UpdateGridDataSource()
+        {
+            var bindingSource = new BindingSource();
+            var list = _session.Logs.GetAllLogs().ToList();
+            bindingSource.DataSource = list;
+            gvLogs.DataSource = bindingSource;
+        }
+
+        private void MoveElevatorIfAllowed(int floorNumber)
+        {
+            _elevator.CallForElevator(floorNumber, ChangeFloor);
         }
 
         private void ChangeFloor(int floorNumber)
         {
             controlPanel.SetFloor(floorNumber);
             SetElevatorOnFloorForFloorControls(floorNumber);
-            _elevator.CurrentFloor = floorNumber;
+            MoveElevatorToFloor(floorNumber);
         }
-
         private void MoveElevatorToFloor(int floorNumber)
         {
-            _elevatorStartY = elevatorInShaftPictureBox.Location.Y;
-            var currentFloor = _elevator.CurrentFloor;
+            var elevatorStartY = elevatorInShaftPictureBox.Location.Y;
 
-            _floorDif = (currentFloor - floorNumber) * -1;
+            var difference = (_elevator.CurrentFloor - floorNumber) * -1;
+
+            _elevatorPosition = new ElevatorPositionHelper
+            {
+                StartPosition = elevatorStartY,
+                FloorDifference = difference,
+                DestinationPosition = elevatorStartY - difference * AppSettings.FloorHeight
+            };
             ToggleWindowResize(false);
 
             elevatorMoveTimer.Enabled = true;
-            elevatorMoveTimer.Interval = AppSettings.TimerInterval;
             elevatorMoveTimer.Start();
         }
 
@@ -109,32 +114,30 @@ namespace ElevatorUI
                     floor.SetElevatorOnFloorDisplay(floorNumber);
                 }
             }
-            MoveElevatorToFloor(floorNumber);
-            _elevator.CurrentFloor = floorNumber;
         }
 
         private void elevatorMoveTimer_Tick(object sender, EventArgs e)
         {
             var x = elevatorInShaftPictureBox.Location.X;
             var y = elevatorInShaftPictureBox.Location.Y;
-            var destLocationY = _elevatorStartY - _floorDif * AppSettings.FloorHeight;
 
-            var heightDiff = destLocationY - y;
+            var heightDiff = _elevatorPosition.DestinationPosition - y;
             if (heightDiff == 0)
             {
                 elevatorMoveTimer.Stop();
                 elevatorMoveTimer.Enabled = false;
                 ToggleWindowResize(true);
+                _elevator.SetState(new ElevatorStationary(_elevator));
                 return;
             }
 
-            var nextY = _floorDif > 0 ? y - 1 : y + 1;
+            var nextY = _elevatorPosition.FloorDifference > 0 ? y - 1 : y + 1;
             elevatorInShaftPictureBox.Location = new Point(x, nextY);
         }
 
         private void ToggleWindowResize(bool available)
         {
-            this.FormBorderStyle = available ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog;
+            FormBorderStyle = available ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog;
             MinimizeBox = available;
             MaximizeBox = available;
         }

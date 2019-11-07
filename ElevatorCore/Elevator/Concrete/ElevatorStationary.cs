@@ -7,25 +7,18 @@ using ElevatorCore.Elevator.Abstract;
 
 namespace ElevatorCore.Elevator.Concrete
 {
-    class ElevatorStationary : IElevatorState
+    public class ElevatorStationary : IElevatorState
     {
-        private ElevatorCore.Elevator.Elevator _elevator;
-
-        public ElevatorStationary(ElevatorCore.Elevator.Elevator elevator)
+        private readonly Elevator _elevator;
+        public ElevatorStationary(Elevator elevator)
         {
             _elevator = elevator;
         }
-
-        public void CallForElevator(int floorNumber)
+        public void MoveElevator(int floorNumber, Action<int> moveElevatorAction)
         {
-            throw new NotImplementedException();
-            //MoveElevator
-        }
-
-        public void MoveElevator(int floorNumber)
-        {
-            throw new NotImplementedException();
-
+            moveElevatorAction(floorNumber);
+            _elevator.CurrentFloor = floorNumber;
+            _elevator.SetState(new ElevatorMoving(_elevator));
         }
     }
 }

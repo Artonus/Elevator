@@ -7,16 +7,17 @@ using ElevatorCore.Elevator.Abstract;
 
 namespace ElevatorCore.Elevator.Concrete
 {
-    class ElevatorMoving : IElevatorState
+    public class ElevatorMoving : IElevatorState
     {
-        public void CallForElevator(int floorNumber)
+        private Elevator _elevator;
+        public ElevatorMoving(Elevator elevator)
         {
-            throw new NotImplementedException();
+            _elevator = elevator;
         }
-
-        public void MoveElevator(int floorNumber)
+        public void MoveElevator(int floorNumber, Action<int> moveElevatorAction)
         {
-            throw new NotImplementedException();
+            // do nothing, elevator is already moving
+            return;
         }
     }
 }

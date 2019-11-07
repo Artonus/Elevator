@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +13,21 @@ namespace ElevatorCore.Elevator
 {
     public class Elevator
     {
-        public IElevatorState CurrentState { get; private set; }
+        private IElevatorState _currentState;
         private PictureBox _elevatorImage;
-
         public int CurrentFloor { get; set; }
-        public Elevator(PictureBox elevatorImage)
+        public Elevator()
         {
-            this._elevatorImage = elevatorImage;
-            this.CurrentState = new ElevatorStationary(this);
+            _currentState = new ElevatorStationary(this);
         }
         public void SetState(IElevatorState elevatorState)
         {
-            this.CurrentState = elevatorState;
+            _currentState = elevatorState;
+        }
+
+        public void CallForElevator(int floorNumber, Action<int> elevatorCalledAction)
+        {
+            _currentState.MoveElevator(floorNumber, elevatorCalledAction);
         }
     }
-
-    
 }
