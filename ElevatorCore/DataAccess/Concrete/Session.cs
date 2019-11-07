@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ElevatorCore.DataAccess.Abstract;
 using ElevatorCore.DataAccess.Model;
+using ElevatorCore.Utils;
 
 namespace ElevatorCore.DataAccess.Concrete
 {
     public class Session : ISession
     {
-        private ElevatorContext _context;
+        private readonly ElevatorContext _context;
 
         private IRepository<Log> _logs;
 
@@ -29,6 +30,7 @@ namespace ElevatorCore.DataAccess.Concrete
             }
             catch (Exception ex)
             {
+                Logger.Instance(this).LogError(ex.Message);
                 //basic handle of an error
                 MessageBox.Show("There was an error while saving changes", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

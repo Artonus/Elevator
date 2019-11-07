@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ElevatorCore.Elevator.Abstract;
 using ElevatorCore.Elevator.Concrete;
+using ElevatorCore.Utils.Abstract;
 
 namespace ElevatorCore.Elevator
 {
     public class Elevator
     {
         private IElevatorState _currentState;
-        private PictureBox _elevatorImage;
         public int CurrentFloor { get; set; }
-        public Elevator()
+        public Elevator(ILogger logger)
         {
-            _currentState = new ElevatorStationary(this);
+            _currentState = new ElevatorStationary(this, logger);
         }
         public void SetState(IElevatorState elevatorState)
         {
