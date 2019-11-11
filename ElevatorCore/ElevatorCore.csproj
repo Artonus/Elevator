@@ -75,11 +75,11 @@
     <Compile Include="Elevator\Concrete\ElevatorMoving.cs" />
     <Compile Include="Elevator\Concrete\ElevatorPositionHelper.cs" />
     <Compile Include="Elevator\Concrete\ElevatorStationary.cs" />
-    <Compile Include="Dialogs\NumberInputDialog.cs">
+    <Compile Include="Dialogs\FloorNumberInputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\NumberInputDialog.Designer.cs">
-      <DependentUpon>NumberInputDialog.cs</DependentUpon>
+    <Compile Include="Dialogs\FloorNumberInputDialog.Designer.cs">
+      <DependentUpon>FloorNumberInputDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Elevator\Elevator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,8 +88,8 @@
     <Compile Include="Utils\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Dialogs\NumberInputDialog.resx">
-      <DependentUpon>NumberInputDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\FloorNumberInputDialog.resx">
+      <DependentUpon>FloorNumberInputDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

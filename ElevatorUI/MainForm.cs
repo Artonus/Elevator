@@ -29,7 +29,7 @@ namespace ElevatorUI
         private ILogger _logger;
         private ISession _session;
         private Elevator _elevator;
-        private ElevatorPositionHelper _elevatorPosition;
+        
         public MainForm()
         {
             InitializeComponent();
@@ -37,7 +37,6 @@ namespace ElevatorUI
         private void Init(int numberOfFloors)
         {
             AppSettings.SetNumberOfFloors(numberOfFloors);
-            
             _session = new Session(new ElevatorContext());
             _logger = Logger.Instance(_session);
             _elevator = new Elevator(_logger);
@@ -45,6 +44,8 @@ namespace ElevatorUI
             InitializeFloors();
             elevatorMoveTimer.Tick += elevatorMoveTimer_Tick;
             elevatorMoveTimer.Interval = AppSettings.TimerInterval;
+            worker.DoWork += SaveChangesAndGetData;
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
         }
 
         private void InitializeFloors()
@@ -59,40 +60,88 @@ namespace ElevatorUI
             }
         }
 
-        private void btnLogs_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _session.Commit();
-                gvLogs.Visible = true;
-                UpdateGridDataSource();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        private void UpdateGridDataSource()
-        {
-            var bindingSource = new BindingSource();
-            var list = _session.Logs.GetAllLogs().ToList();
-            bindingSource.DataSource = list;
-            gvLogs.DataSource = bindingSource;
-
-            gvLogs.Columns[nameof(Log.ID)].Visible = false;
-            gvLogs.Sort(gvLogs.Columns[nameof(Log.ID)], ListSortDirection.Descending);
-        }
-
         private void MoveElevatorIfAllowed(int floorNumber)
         {
             _elevator.CallForElevator(floorNumber, ChangeFloor);
         }
 
+        #region EventHandlers
+        private void SaveChangesAndGetData(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                _session.Commit();
+                e.Result = _session.Logs.GetAllLogs().OrderByDescending(l => l.Timestamp).ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _logger.LogError(ex.Message);
+            }
+        }
+        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                UpdateGridDataSource((List<Log>)e?.Result);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                _logger.LogError(ex.Message);
+            }
+        }
+
+        private void btnLogs_Click(object sender, EventArgs e)
+        {
+            if (worker.IsBusy) return;
+            
+            gvLogs.Visible = true;
+            worker.RunWorkerAsync();
+        }
+
+
+        private void elevatorMoveTimer_Tick(object sender, EventArgs e)
+        {
+            var x = elevatorInShaftPictureBox.Location.X;
+            var y = elevatorInShaftPictureBox.Location.Y;
+
+            var heightDiff = _elevator.ElevatorPosition.DestinationPosition - y;
+            if (heightDiff == 0)
+            {
+                EndElevatorMove();
+                return;
+            }
+
+            var nextY = _elevator.ElevatorPosition.FloorDifference > 0 ? y - 1 : y + 1;
+            elevatorInShaftPictureBox.Location = new Point(x, nextY);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            var title = CommonMessages.FloorNumberDialogTitle;
+            var message = CommonMessages.FloorNumberDialogMessage;
+
+            var numDialog = new FloorNumberInputDialog(message, title);
+            var result = numDialog.ShowDialog();
+            if (result == DialogResult.OK)
+                Init((int)numDialog.SelectedNumber);
+            else
+                Close();
+        }
+        #endregion
+
+        private void UpdateGridDataSource<T>(IEnumerable<T> dataList)
+        {
+            var bindingSource = new BindingSource();
+            // collecting all logs and ordering them by timestamp
+            bindingSource.DataSource = dataList;
+            gvLogs.DataSource = bindingSource;
+
+            gvLogs.Columns[nameof(Log.ID)].Visible = false;
+        }
         private void ChangeFloor(int floorNumber)
         {
-            controlPanel.SetFloor(floorNumber);
-            SetElevatorOnFloorForFloorControls(floorNumber);
             MoveElevatorToFloor(floorNumber);
         }
         private void MoveElevatorToFloor(int floorNumber)
@@ -101,7 +150,7 @@ namespace ElevatorUI
 
             var difference = (_elevator.CurrentFloor - floorNumber) * -1;
 
-            _elevatorPosition = new ElevatorPositionHelper
+            _elevator.ElevatorPosition = new ElevatorPositionHelper
             {
                 StartPosition = elevatorStartY,
                 FloorDifference = difference,
@@ -124,24 +173,20 @@ namespace ElevatorUI
             }
         }
 
-        private void elevatorMoveTimer_Tick(object sender, EventArgs e)
+        private void EndElevatorMove()
         {
-            var x = elevatorInShaftPictureBox.Location.X;
-            var y = elevatorInShaftPictureBox.Location.Y;
+            elevatorMoveTimer.Stop();
+            elevatorMoveTimer.Enabled = false;
+            ToggleWindowResize(true);
+            _elevator.SetState(new ElevatorStationary(_elevator, _logger));
+            _logger.LogElevatorArrivedAtFloor(_elevator.CurrentFloor);
+            SetElevatorDisplay();
+        }
 
-            var heightDiff = _elevatorPosition.DestinationPosition - y;
-            if (heightDiff == 0)
-            {
-                elevatorMoveTimer.Stop();
-                elevatorMoveTimer.Enabled = false;
-                ToggleWindowResize(true);
-                _elevator.SetState(new ElevatorStationary(_elevator, _logger));
-                _logger.LogElevatorArrivedAtFloor(_elevator.CurrentFloor);
-                return;
-            }
-
-            var nextY = _elevatorPosition.FloorDifference > 0 ? y - 1 : y + 1;
-            elevatorInShaftPictureBox.Location = new Point(x, nextY);
+        private void SetElevatorDisplay()
+        {
+            controlPanel.SetFloor(_elevator.CurrentFloor);
+            SetElevatorOnFloorForFloorControls(_elevator.CurrentFloor);
         }
 
         private void ToggleWindowResize(bool available)
@@ -149,20 +194,6 @@ namespace ElevatorUI
             FormBorderStyle = available ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog;
             MinimizeBox = available;
             MaximizeBox = available;
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            var title = "Number of floors";
-            var message =
-                "Please enter how many floors you want to have in the elevator. But please be sensible cause they may not fit onto your screen.\nAdvised is 5 floors max with 100% scaling.";
-            var numDialog = new NumberInputDialog(message, title);
-            var result = numDialog.ShowDialog();
-            if (result == DialogResult.OK)
-                Init((int)numDialog.SelectedNumber);
-            else
-                Close();
-
         }
     }
 }

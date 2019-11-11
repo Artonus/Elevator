@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ElevatorCore.Elevator.Abstract;
 using ElevatorCore.Elevator.Concrete;
+using ElevatorCore.Utils;
 using ElevatorCore.Utils.Abstract;
 
 namespace ElevatorCore.Elevator
@@ -15,6 +16,7 @@ namespace ElevatorCore.Elevator
     public class Elevator
     {
         private IElevatorState _currentState;
+        public ElevatorPositionHelper ElevatorPosition { get; set; }
         public int CurrentFloor { get; set; }
         public Elevator(ILogger logger)
         {
@@ -28,6 +30,11 @@ namespace ElevatorCore.Elevator
         public void CallForElevator(int floorNumber, Action<int> elevatorCalledAction)
         {
             _currentState.MoveElevator(floorNumber, elevatorCalledAction);
+        }
+
+        public void OpenDoors(int floorNumber)
+        {
+
         }
     }
 }

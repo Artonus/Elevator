@@ -1,6 +1,6 @@
 ﻿namespace ElevatorCore.Dialogs
 {
-    partial class NumberInputDialog
+    partial class FloorNumberInputDialog
     {
         /// <summary>
         /// Required designer variable.

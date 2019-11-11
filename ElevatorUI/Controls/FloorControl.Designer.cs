@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FloorControl));
             this.lbFloor = new System.Windows.Forms.Label();
             this.btnCallElevator = new System.Windows.Forms.Button();
             this.pbElevator = new System.Windows.Forms.PictureBox();
@@ -42,7 +41,7 @@
             // 
             this.lbFloor.AutoSize = true;
             this.lbFloor.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lbFloor.Location = new System.Drawing.Point(245, 49);
+            this.lbFloor.Location = new System.Drawing.Point(371, 59);
             this.lbFloor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbFloor.Name = "lbFloor";
             this.lbFloor.Size = new System.Drawing.Size(125, 24);
@@ -51,7 +50,7 @@
             // 
             // btnCallElevator
             // 
-            this.btnCallElevator.Location = new System.Drawing.Point(249, 98);
+            this.btnCallElevator.Location = new System.Drawing.Point(375, 108);
             this.btnCallElevator.Margin = new System.Windows.Forms.Padding(2);
             this.btnCallElevator.Name = "btnCallElevator";
             this.btnCallElevator.Size = new System.Drawing.Size(115, 28);
@@ -62,8 +61,8 @@
             // 
             // pbElevator
             // 
-            this.pbElevator.Image = ((System.Drawing.Image)(resources.GetObject("pbElevator.Image")));
-            this.pbElevator.Location = new System.Drawing.Point(11, 20);
+            this.pbElevator.Image = global::ElevatorUI.Properties.Resources.openElevator;
+            this.pbElevator.Location = new System.Drawing.Point(51, 20);
             this.pbElevator.Margin = new System.Windows.Forms.Padding(2);
             this.pbElevator.Name = "pbElevator";
             this.pbElevator.Size = new System.Drawing.Size(110, 150);
@@ -75,7 +74,7 @@
             // 
             this.groupBox1.Controls.Add(this.lbCurrentFloor);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Location = new System.Drawing.Point(126, 19);
+            this.groupBox1.Location = new System.Drawing.Point(252, 29);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -105,10 +104,10 @@
             this.Controls.Add(this.btnCallElevator);
             this.Controls.Add(this.lbFloor);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximumSize = new System.Drawing.Size(380, 190);
+            this.MaximumSize = new System.Drawing.Size(500, 190);
             this.MinimumSize = new System.Drawing.Size(380, 190);
             this.Name = "FloorControl";
-            this.Size = new System.Drawing.Size(380, 190);
+            this.Size = new System.Drawing.Size(498, 188);
             ((System.ComponentModel.ISupportInitialize)(this.pbElevator)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

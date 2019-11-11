@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace ElevatorCore.Dialogs
 {
-    public partial class NumberInputDialog : Form
+    public partial class FloorNumberInputDialog : Form
     {
         public decimal SelectedNumber { get; private set; }
-        public NumberInputDialog(string text, string caption)
+        public FloorNumberInputDialog(string text, string caption)
         {
             InitializeComponent();
             Text = caption;

@@ -43,9 +43,9 @@ namespace ElevatorCore.Utils
             Log(CommonMessages.GetElevatorStartedMovingMessage(floorNumber));
         }
 
-        public void LogError(string message)
+        public void LogError(string errorMsg)
         {
-            Log(CommonMessages.GetErrorMessage(message));
+            Log(CommonMessages.GetErrorMessage(errorMsg));
         }
 
         private void Log(string message)
