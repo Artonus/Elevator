@@ -85,6 +85,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Resources\RightDoor.png" />
+    <None Include="Resources\LeftDoor.png" />
     <EmbeddedResource Include="Controls\ControlPanelControl.resx">
       <DependentUpon>ControlPanelControl.cs</DependentUpon>
     </EmbeddedResource>

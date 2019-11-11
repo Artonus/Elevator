@@ -8,21 +8,22 @@ using ElevatorCore.Utils.Abstract;
 
 namespace ElevatorCore.Elevator.Concrete
 {
-    public class ElevatorStationary : IElevatorState
+    public class ElevatorDoorsOpening : IElevatorState
     {
         private readonly Elevator _elevator;
         private readonly ILogger _logger;
-        public ElevatorStationary(Elevator elevator, ILogger logger)
+
+        public ElevatorDoorsOpening(Elevator elevator, ILogger logger)
         {
-            _logger = logger;
             _elevator = elevator;
+            _logger = logger;
+
+            _elevator.OpenDoors();
+            _logger.LogElevatorOpeningDoors(_elevator.DestinationFloor);
         }
         public void MoveElevator(int floorNumber)
         {
-            _elevator.SetState(new ElevatorDoorsClosing(_elevator, _logger));
-            _elevator.StartFloor = _elevator.DestinationFloor;
-            _elevator.DestinationFloor = floorNumber;
-            
+            _logger.LogElevatorDoorsAlreadyOpening(_elevator.DestinationFloor);
         }
     }
 }

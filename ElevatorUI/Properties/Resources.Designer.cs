@@ -73,9 +73,29 @@ namespace ElevatorUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LeftDoor {
+            get {
+                object obj = ResourceManager.GetObject("LeftDoor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap openElevator {
             get {
                 object obj = ResourceManager.GetObject("openElevator", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RightDoor {
+            get {
+                object obj = ResourceManager.GetObject("RightDoor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

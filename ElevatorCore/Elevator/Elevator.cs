@@ -15,26 +15,53 @@ namespace ElevatorCore.Elevator
 {
     public class Elevator
     {
+        private readonly ILogger _logger;
         private IElevatorState _currentState;
+        private Action<int> _closeDoorsAction;
+        private Action<int> _openDoorsAction;
+        private Action<int> _moveElevatorAction;
         public ElevatorPositionHelper ElevatorPosition { get; set; }
-        public int CurrentFloor { get; set; }
+        public int DestinationFloor { get; set; }
+        public int StartFloor { get; set; }
+
         public Elevator(ILogger logger)
         {
+            _logger = logger;
             _currentState = new ElevatorStationary(this, logger);
+        }
+
+        public void Init(Action<int> moveElevatorAction, Action<int> closeDoorsAction, Action<int> openDoorsAction)
+        {
+            _moveElevatorAction = moveElevatorAction;
+            _closeDoorsAction = closeDoorsAction;
+            _openDoorsAction = openDoorsAction;
         }
         public void SetState(IElevatorState elevatorState)
         {
             _currentState = elevatorState;
         }
 
-        public void CallForElevator(int floorNumber, Action<int> elevatorCalledAction)
+        public void CallForElevator(int floorNumber)
         {
-            _currentState.MoveElevator(floorNumber, elevatorCalledAction);
+            _currentState.MoveElevator(floorNumber);
         }
 
-        public void OpenDoors(int floorNumber)
+        public void OpenDoors()
         {
+            _openDoorsAction(DestinationFloor);
+        }
 
+        public void CloseDoors()
+        {
+            _closeDoorsAction(DestinationFloor);
+            //todo:_le
+        }
+
+        public void MoveElevator()
+        {
+            _moveElevatorAction(DestinationFloor);
+            _logger.LogElevatorStartedMoving(DestinationFloor);
+            //todo
         }
     }
 }

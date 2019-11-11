@@ -40,6 +40,7 @@ namespace ElevatorUI
             _session = new Session(new ElevatorContext());
             _logger = Logger.Instance(_session);
             _elevator = new Elevator(_logger);
+            _elevator.Init(ChangeFloor,CloseElevatorDoorsOnFloor, OpenElevatorDoorsOnFloor);
             controlPanel.Init(MoveElevatorIfAllowed);
             InitializeFloors();
             elevatorMoveTimer.Tick += elevatorMoveTimer_Tick;
@@ -52,7 +53,7 @@ namespace ElevatorUI
         {
             for (int i = AppSettings.NumberOfFloors - 1; i >= 0; i--)
             {
-                var floor = new FloorControl(i, MoveElevatorIfAllowed, _logger)
+                var floor = new FloorControl(i, MoveElevatorIfAllowed, _logger, _elevator)
                 {
                     Dock = DockStyle.Bottom
                 };
@@ -62,7 +63,7 @@ namespace ElevatorUI
 
         private void MoveElevatorIfAllowed(int floorNumber)
         {
-            _elevator.CallForElevator(floorNumber, ChangeFloor);
+            _elevator.CallForElevator(floorNumber);
         }
 
         #region EventHandlers
@@ -139,6 +140,7 @@ namespace ElevatorUI
             gvLogs.DataSource = bindingSource;
 
             gvLogs.Columns[nameof(Log.ID)].Visible = false;
+            gvLogs.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
         }
         private void ChangeFloor(int floorNumber)
         {
@@ -148,7 +150,7 @@ namespace ElevatorUI
         {
             var elevatorStartY = elevatorInShaftPictureBox.Location.Y;
 
-            var difference = (_elevator.CurrentFloor - floorNumber) * -1;
+            var difference = (_elevator.StartFloor - floorNumber) * -1;
 
             _elevator.ElevatorPosition = new ElevatorPositionHelper
             {
@@ -172,21 +174,41 @@ namespace ElevatorUI
                 }
             }
         }
+        private void CloseElevatorDoorsOnFloor(int floorNumber)
+        {
+            foreach (var ctrl in floorsOuterPanel.Controls)
+            {
+                if (ctrl is IFloor floor)
+                {
+                    floor.CloseElevatorDoor(floorNumber);
+                }
+            }
+        }
+        private void OpenElevatorDoorsOnFloor(int floorNumber)
+        {
+            foreach (var ctrl in floorsOuterPanel.Controls)
+            {
+                if (ctrl is IFloor floor)
+                {
+                    floor.OpenElevatorDoor(floorNumber);
+                }
+            }
+        }
 
         private void EndElevatorMove()
         {
             elevatorMoveTimer.Stop();
             elevatorMoveTimer.Enabled = false;
             ToggleWindowResize(true);
-            _elevator.SetState(new ElevatorStationary(_elevator, _logger));
-            _logger.LogElevatorArrivedAtFloor(_elevator.CurrentFloor);
+            _elevator.SetState(new ElevatorDoorsOpening(_elevator, _logger));
+            _logger.LogElevatorArrivedAtFloor(_elevator.DestinationFloor);
             SetElevatorDisplay();
         }
 
         private void SetElevatorDisplay()
         {
-            controlPanel.SetFloor(_elevator.CurrentFloor);
-            SetElevatorOnFloorForFloorControls(_elevator.CurrentFloor);
+            controlPanel.SetFloor(_elevator.DestinationFloor);
+            SetElevatorOnFloorForFloorControls(_elevator.DestinationFloor);
         }
 
         private void ToggleWindowResize(bool available)

@@ -8,6 +8,6 @@ namespace ElevatorCore.Elevator.Abstract
 {
     public interface IElevatorState
     {
-        void MoveElevator(int floorNumber, Action<int> moveElevatorAction);
+        void MoveElevator(int floorNumber);
     }
 }

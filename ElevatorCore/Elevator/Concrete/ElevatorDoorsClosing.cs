@@ -8,19 +8,21 @@ using ElevatorCore.Utils.Abstract;
 
 namespace ElevatorCore.Elevator.Concrete
 {
-    class ElevatorDoorsOpen : IElevatorState
+    public class ElevatorDoorsClosing : IElevatorState
     {
         private readonly Elevator _elevator;
         private readonly ILogger _logger;
 
-        public ElevatorDoorsOpen(Elevator elevator, ILogger logger)
+        public ElevatorDoorsClosing(Elevator elevator, ILogger logger)
         {
             _elevator = elevator;
             _logger = logger;
+            _elevator.CloseDoors();
         }
-        public void MoveElevator(int floorNumber, Action<int> moveElevatorAction)
+
+        public void MoveElevator(int floorNumber)
         {
-            throw new NotImplementedException();
+            _logger.LogElevatorDoorsAlreadyClosing(_elevator.DestinationFloor);
         }
     }
 }

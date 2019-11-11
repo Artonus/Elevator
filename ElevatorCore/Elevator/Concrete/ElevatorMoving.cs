@@ -17,11 +17,12 @@ namespace ElevatorCore.Elevator.Concrete
         {
             _elevator = elevator;
             _logger = logger;
+            _elevator.MoveElevator();
         }
-        public void MoveElevator(int floorNumber, Action<int> moveElevatorAction)
+        public void MoveElevator(int floorNumber)
         {
             // do nothing, elevator is already moving
-            _logger.LogElevatorAlreadyMovingToFloor(_elevator.CurrentFloor);
+            _logger.LogElevatorAlreadyMovingToFloor(_elevator.DestinationFloor);
         }
     }
 }

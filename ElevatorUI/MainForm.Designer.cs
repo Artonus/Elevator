@@ -54,7 +54,7 @@
             this.floorsOuterPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.floorsOuterPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.floorsOuterPanel.Location = new System.Drawing.Point(755, 0);
-            this.floorsOuterPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.floorsOuterPanel.Margin = new System.Windows.Forms.Padding(2);
             this.floorsOuterPanel.Name = "floorsOuterPanel";
             this.floorsOuterPanel.Size = new System.Drawing.Size(500, 607);
             this.floorsOuterPanel.TabIndex = 1;
@@ -64,11 +64,11 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.gvLogs);
             this.panel1.Controls.Add(this.panel3);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(482, 607);
+            this.panel1.Size = new System.Drawing.Size(304, 607);
             this.panel1.TabIndex = 3;
             // 
             // gvLogs
@@ -76,11 +76,11 @@
             this.gvLogs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvLogs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gvLogs.Location = new System.Drawing.Point(0, 81);
-            this.gvLogs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gvLogs.Margin = new System.Windows.Forms.Padding(2);
             this.gvLogs.Name = "gvLogs";
             this.gvLogs.RowHeadersWidth = 51;
             this.gvLogs.RowTemplate.Height = 24;
-            this.gvLogs.Size = new System.Drawing.Size(480, 524);
+            this.gvLogs.Size = new System.Drawing.Size(302, 524);
             this.gvLogs.TabIndex = 3;
             this.gvLogs.Visible = false;
             // 
@@ -89,9 +89,9 @@
             this.panel3.Controls.Add(this.btnLogs);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(480, 81);
+            this.panel3.Size = new System.Drawing.Size(302, 81);
             this.panel3.TabIndex = 2;
             // 
             // btnLogs
@@ -101,9 +101,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogs.BackColor = System.Drawing.Color.Transparent;
             this.btnLogs.Location = new System.Drawing.Point(46, 26);
-            this.btnLogs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLogs.Margin = new System.Windows.Forms.Padding(2);
             this.btnLogs.Name = "btnLogs";
-            this.btnLogs.Size = new System.Drawing.Size(380, 31);
+            this.btnLogs.Size = new System.Drawing.Size(202, 31);
             this.btnLogs.TabIndex = 1;
             this.btnLogs.Text = "Show Logs";
             this.btnLogs.UseVisualStyleBackColor = false;
@@ -112,9 +112,9 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.controlPanel);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(482, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel2.Location = new System.Drawing.Point(304, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(141, 607);
             this.panel2.TabIndex = 4;
@@ -126,17 +126,17 @@
             // elevatorShaft
             // 
             this.elevatorShaft.Controls.Add(this.elevatorInShaftPictureBox);
-            this.elevatorShaft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elevatorShaft.Location = new System.Drawing.Point(623, 0);
+            this.elevatorShaft.Dock = System.Windows.Forms.DockStyle.Right;
+            this.elevatorShaft.Location = new System.Drawing.Point(445, 0);
             this.elevatorShaft.Name = "elevatorShaft";
-            this.elevatorShaft.Size = new System.Drawing.Size(132, 607);
+            this.elevatorShaft.Size = new System.Drawing.Size(310, 607);
             this.elevatorShaft.TabIndex = 5;
             // 
             // elevatorInShaftPictureBox
             // 
             this.elevatorInShaftPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.elevatorInShaftPictureBox.Image = global::ElevatorUI.Properties.Resources.openElevator;
-            this.elevatorInShaftPictureBox.Location = new System.Drawing.Point(16, 437);
+            this.elevatorInShaftPictureBox.Location = new System.Drawing.Point(194, 437);
             this.elevatorInShaftPictureBox.Name = "elevatorInShaftPictureBox";
             this.elevatorInShaftPictureBox.Size = new System.Drawing.Size(110, 150);
             this.elevatorInShaftPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -158,11 +158,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1255, 607);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.elevatorShaft);
             this.Controls.Add(this.floorsOuterPanel);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "Elevator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

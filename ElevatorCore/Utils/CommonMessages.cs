@@ -34,6 +34,27 @@ namespace ElevatorCore.Utils
             return $"The elevator is already moving to the floor {floorNumber}, call has been canceled.";
         }
 
+        public static string GetElevatorClosingDoorsMessage(int floorNumber)
+        {
+            return $"The doors of the elevator are closing at floor {floorNumber}";
+        }
+
+        public static string GetElevatorDoorsAlreadyClosingMessage(int floorNumber)
+        {
+            return $"The elevator is already closing the door at floor {floorNumber}, call has been canceled.";
+        }
+
+        public static string GetElevatorOpeningDoorsMessage(int floorNumber)
+        {
+            return $"The doors of the elevator are opening at floor {floorNumber}";
+        }
+
+        public static string GetElevatorDoorsAlreadyOpeningMessage(int floorNumber)
+        {
+            return $"The elevator is already opening the door at floor {floorNumber}, call has been canceled.";
+        }
+
+
         public static string FloorNumberDialogMessage =>
             "Please enter how many floors you want to have in the elevator. But please be sensible cause they may not fit onto your screen.\nAdvised is 5 floors max with 100% scaling.";
 

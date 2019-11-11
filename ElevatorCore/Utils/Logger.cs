@@ -43,6 +43,26 @@ namespace ElevatorCore.Utils
             Log(CommonMessages.GetElevatorStartedMovingMessage(floorNumber));
         }
 
+        public void LogElevatorClosingDoors(int floorNumber)
+        {
+            Log(CommonMessages.GetElevatorClosingDoorsMessage(floorNumber));
+        }
+
+        public void LogElevatorDoorsAlreadyClosing(int floorNumber)
+        {
+            Log(CommonMessages.GetElevatorDoorsAlreadyClosingMessage(floorNumber));
+        }
+
+        public void LogElevatorOpeningDoors(int floorNumber)
+        {
+            Log(CommonMessages.GetElevatorOpeningDoorsMessage(floorNumber));
+        }
+
+        public void LogElevatorDoorsAlreadyOpening(int floorNumber)
+        {
+            Log(CommonMessages.GetElevatorDoorsAlreadyOpeningMessage(floorNumber));
+        }
+
         public void LogError(string errorMsg)
         {
             Log(CommonMessages.GetErrorMessage(errorMsg));
