@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElevatorCore.Utils
+﻿namespace ElevatorCore.Utils
 {
+    /// <summary>
+    /// Contains all common messages the program uses
+    /// </summary>
     public static class CommonMessages
     {
         public static string GetElevatorArrivedMessage(int floorNumber)
