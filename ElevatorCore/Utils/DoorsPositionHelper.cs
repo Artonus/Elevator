@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElevatorCore.Utils
+﻿namespace ElevatorCore.Utils
 {
     /// <summary>
     /// Helper class that contains variables necessary to manage doors opening and closing
