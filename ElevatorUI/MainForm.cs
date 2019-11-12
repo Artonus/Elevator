@@ -72,7 +72,7 @@ namespace ElevatorUI
             try
             {
                 _session.Commit();
-                e.Result = _session.Logs.GetAllLogs().OrderByDescending(l => l.Timestamp).ToList();
+                e.Result = _session.Logs.GetAll().OrderByDescending(l => l.Timestamp).ToList();
             }
             catch (Exception ex)
             {

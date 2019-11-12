@@ -10,9 +10,21 @@ using System.Windows.Forms;
 
 namespace ElevatorCore.Dialogs
 {
+    /// <summary>
+    /// Dialog to ask for numeric user input
+    /// </summary>
     public partial class FloorNumberInputDialog : Form
     {
+        /// <summary>
+        /// Number entered by the user
+        /// </summary>
         public decimal SelectedNumber { get; private set; }
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="text">Information to the user</param>
+        /// <param name="caption">Title of the window</param>
         public FloorNumberInputDialog(string text, string caption)
         {
             InitializeComponent();
@@ -20,8 +32,14 @@ namespace ElevatorCore.Dialogs
             lbQuestion.Text = text;
         }
 
+        /// <summary>
+        /// Event that handles OK button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOk_Click(object sender, EventArgs e)
         {
+            // check if it is valid input
             if (nudUserInput.Value == default || nudUserInput.Value < AppSettings.MinimumFloorCount)
             {
                 //TODO: Inform user about wrong input

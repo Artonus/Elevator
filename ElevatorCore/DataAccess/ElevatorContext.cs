@@ -9,22 +9,29 @@ using ElevatorCore.DataAccess.Model;
 
 namespace ElevatorCore.DataAccess
 {
+    /// <summary>
+    /// Database context that connects Entity Framework to our database
+    /// </summary>
     public class ElevatorContext : DbContext
     {
-        public ElevatorContext() : base("Elevator")
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ElevatorContext() : base("Elevator") // specifying name of the connection string in App.config
         {
-            //Database.SetInitializer<ElevatorContext>(null);
+            
         }
 
+        /// <summary>
+        /// Database set of Log table
+        /// </summary>
         public DbSet<Log> Logs { get; set; }
         
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Database does not pluralize table names
             Database.SetInitializer<ElevatorContext>(null);
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 }
