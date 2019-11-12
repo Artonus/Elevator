@@ -10,14 +10,33 @@ using ElevatorCore.Utils.Abstract;
 
 namespace ElevatorCore.Utils
 {
+    /// <summary>
+    /// Concrete implementation of the Logger
+    /// </summary>
     public class Logger : ILogger
     {
+        /// <summary>
+        /// Session instance
+        /// </summary>
         private readonly ISession _session;
+        /// <summary>
+        /// Self instance (singleton)
+        /// </summary>
         private static Logger _instance;
+        /// <summary>
+        /// Instance getter
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
         public static ILogger Instance(ISession session)
         {
             return _instance ?? (_instance = new Logger(session));
         }
+
+        /// <summary>
+        /// private c-tor
+        /// </summary>
+        /// <param name="session"></param>
         private Logger(ISession session)
         {
             _session = session;
