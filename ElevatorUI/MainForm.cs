@@ -33,15 +33,17 @@ namespace ElevatorUI
         /// Logger instance
         /// </summary>
         private ILogger _logger;
+
         /// <summary>
         /// Session instance
         /// </summary>
         private ISession _session;
+
         /// <summary>
         /// Elevator instance
         /// </summary>
         private Elevator _elevator;
-        
+
         /// <summary>
         /// Default c-tor
         /// </summary>
@@ -49,6 +51,7 @@ namespace ElevatorUI
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// Initializes the properties of the application
         /// </summary>
@@ -62,7 +65,7 @@ namespace ElevatorUI
             _logger = Logger.Instance(_session);
             // initialize elevator
             _elevator = new Elevator(_logger);
-            _elevator.Init(MoveElevatorToFloor,CloseElevatorDoorsOnFloor, OpenElevatorDoorsOnFloor);
+            _elevator.Init(MoveElevatorToFloor, CloseElevatorDoorsOnFloor, OpenElevatorDoorsOnFloor);
             // initialize control panel
             controlPanel.Init(MoveElevatorIfAllowed);
             // create floors
@@ -74,6 +77,7 @@ namespace ElevatorUI
             worker.DoWork += SaveChangesAndGetData;
             worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
         }
+
         /// <summary>
         /// Creates required number of floors
         /// </summary>
@@ -90,6 +94,7 @@ namespace ElevatorUI
                 floorsOuterPanel.Controls.Add(floor);
             }
         }
+
         /// <summary>
         /// Move elevator if is in the right state
         /// </summary>
@@ -100,6 +105,7 @@ namespace ElevatorUI
         }
 
         #region Events
+
         /// <summary>
         /// Saves logs to the database and retrieves data
         /// </summary>
@@ -122,13 +128,14 @@ namespace ElevatorUI
                 _logger.LogError(ex.Message);
             }
         }
+
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             try
             {
                 // retrieve the result of the background worker and update the grid data source 
                 // cast e.Result to List of type Log
-                UpdateGridDataSource((List<Log>)e?.Result);
+                UpdateGridDataSource((List<Log>) e?.Result);
             }
             catch (Exception ex)
             {
@@ -137,6 +144,7 @@ namespace ElevatorUI
                 _logger.LogError(ex.Message);
             }
         }
+
         /// <summary>
         /// Event handler of the 
         /// </summary>
@@ -146,7 +154,7 @@ namespace ElevatorUI
         {
             // if background worker is running abort hte execution
             if (worker.IsBusy) return;
-            
+
             // show data grid view and run background worker to retrieve data
             gvLogs.Visible = true;
             worker.RunWorkerAsync();
@@ -171,10 +179,12 @@ namespace ElevatorUI
                 EndElevatorMove();
                 return;
             }
+
             // move elevator in correct direction
             var nextY = _elevator.ElevatorPosition.FloorDifference > 0 ? y - 1 : y + 1;
             elevatorInShaftPictureBox.Location = new Point(x, nextY);
         }
+
         /// <summary>
         /// Onload event handler
         /// </summary>
@@ -189,10 +199,11 @@ namespace ElevatorUI
             var result = numDialog.ShowDialog();
             // if result is correct initialize window, otherwise close the app
             if (result == DialogResult.OK)
-                Init((int)numDialog.SelectedNumber);
+                Init((int) numDialog.SelectedNumber);
             else
                 Close();
         }
+
         #endregion
 
         /// <summary>
@@ -202,21 +213,23 @@ namespace ElevatorUI
         /// <param name="dataList"></param>
         private void UpdateGridDataSource<T>(IEnumerable<T> dataList)
         {
-            var bindingSource = new BindingSource { DataSource = dataList };
+            var bindingSource = new BindingSource {DataSource = dataList};
             // collecting all logs and ordering them by timestamp
             gvLogs.DataSource = bindingSource;
             // gide column that contains ID of the log
             gvLogs.Columns[nameof(Log.ID)].Visible = false;
             // set size of the columns to fit all the data
             gvLogs.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            gvLogs.RowHeadersVisible = false;
         }
+
         /// <summary>
         /// Starts the movement of te elevator
         /// </summary>
         /// <param name="floorNumber"></param>
         private void MoveElevatorToFloor(int floorNumber)
         {
-            
+
             var elevatorStartY = elevatorInShaftPictureBox.Location.Y;
 
             var difference = (_elevator.StartFloor - floorNumber) * -1;
@@ -233,6 +246,7 @@ namespace ElevatorUI
             elevatorMoveTimer.Enabled = true;
             elevatorMoveTimer.Start();
         }
+
         /// <summary>
         /// Sets the display on floors
         /// </summary>
@@ -247,6 +261,7 @@ namespace ElevatorUI
                 }
             }
         }
+
         /// <summary>
         /// Closes the doors on the floor
         /// </summary>
@@ -261,6 +276,7 @@ namespace ElevatorUI
                 }
             }
         }
+
         /// <summary>
         /// Opens the doors on the floor
         /// </summary>
@@ -275,6 +291,7 @@ namespace ElevatorUI
                 }
             }
         }
+
         /// <summary>
         /// Finishes the move of the elevator
         /// </summary>
@@ -290,6 +307,7 @@ namespace ElevatorUI
             _logger.LogElevatorArrivedAtFloor(_elevator.DestinationFloor);
             SetElevatorDisplay();
         }
+
         /// <summary>
         /// Sets the display for the floors and elevator control panel
         /// </summary>
@@ -300,6 +318,7 @@ namespace ElevatorUI
             // set the display on the floors
             SetElevatorOnFloorForFloorControls(_elevator.DestinationFloor);
         }
+
         /// <summary>
         /// Locks the scaling of the window to prevent unwanted behaviour of the elevator
         /// </summary>
@@ -310,6 +329,16 @@ namespace ElevatorUI
             // lock/unlock minimize and maximize buttons
             MinimizeBox = available;
             MaximizeBox = available;
+        }
+
+        /// <summary>
+        /// Action when the program is closing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _session.Commit();
         }
     }
 }
