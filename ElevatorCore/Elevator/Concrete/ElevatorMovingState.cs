@@ -9,9 +9,9 @@ using ElevatorCore.Utils.Abstract;
 namespace ElevatorCore.Elevator.Concrete
 {
     /// <summary>
-    /// Represents the state of the elevator when it is stationary at the floor
+    /// Represents the temporary state of the elevator moving
     /// </summary>
-    public class ElevatorStationary : IElevatorState
+    public class ElevatorMovingState : IElevatorState
     {
         /// <summary>
         /// Elevator instance
@@ -23,15 +23,12 @@ namespace ElevatorCore.Elevator.Concrete
         /// </summary>
         private readonly ILogger _logger;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="elevator"></param>
-        /// <param name="logger"></param>
-        public ElevatorStationary(Elevator elevator, ILogger logger)
+        public ElevatorMovingState(Elevator elevator, ILogger logger)
         {
-            _logger = logger;
             _elevator = elevator;
+            _logger = logger;
+            // calls to move elevator to requested floor after the change of the state
+            _elevator.MoveElevator();
         }
 
         /// <summary>
@@ -40,10 +37,8 @@ namespace ElevatorCore.Elevator.Concrete
         /// <param name="floorNumber"></param>
         public void MoveElevator(int floorNumber)
         {
-            _elevator.SetState(new ElevatorDoorsClosing(_elevator, _logger));
-            _elevator.StartFloor = _elevator.DestinationFloor;
-            _elevator.DestinationFloor = floorNumber;
-            
+            // do nothing, elevator is already moving and log event cancelled 
+            _logger.LogElevatorAlreadyMovingToFloor(_elevator.DestinationFloor);
         }
     }
 }

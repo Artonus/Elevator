@@ -79,7 +79,7 @@ namespace ElevatorUI.Controls
         /// <param name="floorNumber"></param>
         public void SetFloor(int floorNumber)
         {
-            this.tbFloorNumber.Text = floorNumber.ToString();
+            this.lbCurrentFloor.Text = floorNumber.ToString();
         }
     }
 }

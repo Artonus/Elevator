@@ -9,9 +9,9 @@ using ElevatorCore.Utils.Abstract;
 namespace ElevatorCore.Elevator.Concrete
 {
     /// <summary>
-    /// Represents the temporary state of the elevator doors opening
+    /// Represents the temporary state of the elevator doors closing
     /// </summary>
-    public class ElevatorDoorsOpening : IElevatorState
+    public class ElevatorDoorsClosingState : IElevatorState
     {
         /// <summary>
         /// Elevator instance
@@ -23,13 +23,13 @@ namespace ElevatorCore.Elevator.Concrete
         /// </summary>
         private readonly ILogger _logger;
 
-        public ElevatorDoorsOpening(Elevator elevator, ILogger logger)
+        public ElevatorDoorsClosingState(Elevator elevator, ILogger logger)
         {
             _elevator = elevator;
             _logger = logger;
-
-            _elevator.OpenDoors();
-            _logger.LogElevatorOpeningDoors(_elevator.DestinationFloor);
+            // call elevator doors to close at initialization of the state
+            _elevator.CloseDoors();
+            _logger.LogElevatorClosingDoors(elevator.DestinationFloor);
         }
 
         /// <summary>
@@ -38,7 +38,8 @@ namespace ElevatorCore.Elevator.Concrete
         /// <param name="floorNumber"></param>
         public void MoveElevator(int floorNumber)
         {
-            _logger.LogElevatorDoorsAlreadyOpening(_elevator.DestinationFloor);
+            // do nothing, report that doors are already closing
+            _logger.LogElevatorDoorsAlreadyClosing(_elevator.DestinationFloor);
         }
     }
 }

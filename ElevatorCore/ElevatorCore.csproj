@@ -72,12 +72,12 @@
     <Compile Include="Elevator\Abstract\IElevatorState.cs" />
     <Compile Include="Elevator\Abstract\IFloor.cs" />
     <Compile Include="AppSettings.cs" />
-    <Compile Include="Elevator\Concrete\ElevatorDoorsClosing.cs" />
-    <Compile Include="Elevator\Concrete\ElevatorDoorsOpening.cs" />
-    <Compile Include="Elevator\Concrete\ElevatorMoving.cs" />
+    <Compile Include="Elevator\Concrete\ElevatorDoorsClosingState.cs" />
+    <Compile Include="Elevator\Concrete\ElevatorDoorsOpeningState.cs" />
+    <Compile Include="Elevator\Concrete\ElevatorMovingState.cs" />
     <Compile Include="Utils\DoorsPositionHelper.cs" />
     <Compile Include="Utils\ElevatorPositionHelper.cs" />
-    <Compile Include="Elevator\Concrete\ElevatorStationary.cs" />
+    <Compile Include="Elevator\Concrete\ElevatorStationaryState.cs" />
     <Compile Include="Dialogs\FloorNumberInputDialog.cs">
       <SubType>Form</SubType>
     </Compile>

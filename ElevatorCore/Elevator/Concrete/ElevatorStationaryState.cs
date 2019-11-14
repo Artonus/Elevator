@@ -9,9 +9,9 @@ using ElevatorCore.Utils.Abstract;
 namespace ElevatorCore.Elevator.Concrete
 {
     /// <summary>
-    /// Represents the temporary state of the elevator doors closing
+    /// Represents the state of the elevator when it is stationary at the floor
     /// </summary>
-    public class ElevatorDoorsClosing : IElevatorState
+    public class ElevatorStationaryState : IElevatorState
     {
         /// <summary>
         /// Elevator instance
@@ -23,13 +23,15 @@ namespace ElevatorCore.Elevator.Concrete
         /// </summary>
         private readonly ILogger _logger;
 
-        public ElevatorDoorsClosing(Elevator elevator, ILogger logger)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="elevator"></param>
+        /// <param name="logger"></param>
+        public ElevatorStationaryState(Elevator elevator, ILogger logger)
         {
-            _elevator = elevator;
             _logger = logger;
-            // call elevator doors to close at initialization of the state
-            _elevator.CloseDoors();
-            _logger.LogElevatorClosingDoors(elevator.DestinationFloor);
+            _elevator = elevator;
         }
 
         /// <summary>
@@ -38,8 +40,10 @@ namespace ElevatorCore.Elevator.Concrete
         /// <param name="floorNumber"></param>
         public void MoveElevator(int floorNumber)
         {
-            // do nothing, report that doors are already closing
-            _logger.LogElevatorDoorsAlreadyClosing(_elevator.DestinationFloor);
+            _elevator.SetState(new ElevatorDoorsClosingState(_elevator, _logger));
+            _elevator.StartFloor = _elevator.DestinationFloor;
+            _elevator.DestinationFloor = floorNumber;
+            
         }
     }
 }

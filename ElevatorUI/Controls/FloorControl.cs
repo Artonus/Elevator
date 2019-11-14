@@ -192,7 +192,7 @@ namespace ElevatorUI.Controls
             doorsTimer.Enabled = false;
             // change state of the elevator, if the next elevator state will be ElevatorMoving it will
             // auto trigger the function to move elevator do selected floor
-            var state = opened ? (IElevatorState) new ElevatorStationary(_elevator, _logger) : new ElevatorMoving(_elevator, _logger);
+            var state = opened ? (IElevatorState) new ElevatorStationaryState(_elevator, _logger) : new ElevatorMovingState(_elevator, _logger);
 
             _elevator.SetState(state);
         }

@@ -303,7 +303,7 @@ namespace ElevatorUI
             // unlock window resize
             ToggleWindowResize(true);
             // change the state of the elevator
-            _elevator.SetState(new ElevatorDoorsOpening(_elevator, _logger));
+            _elevator.SetState(new ElevatorDoorsOpeningState(_elevator, _logger));
             _logger.LogElevatorArrivedAtFloor(_elevator.DestinationFloor);
             SetElevatorDisplay();
         }

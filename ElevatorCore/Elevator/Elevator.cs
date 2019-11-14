@@ -52,7 +52,7 @@ namespace ElevatorCore.Elevator
         {
             _logger = logger;
             // initialization of default state of the elevator
-            _currentState = new ElevatorStationary(this, logger);
+            _currentState = new ElevatorStationaryState(this, logger);
         }
 
         /// <summary>
