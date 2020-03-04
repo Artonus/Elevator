@@ -31,6 +31,7 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.nudUserInput = new System.Windows.Forms.NumericUpDown();
             this.lbQuestion = new System.Windows.Forms.Label();
+            this.lbErrMessage = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudUserInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,30 +51,48 @@
             this.nudUserInput.Name = "nudUserInput";
             this.nudUserInput.Size = new System.Drawing.Size(120, 22);
             this.nudUserInput.TabIndex = 1;
+            this.nudUserInput.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // lbQuestion
             // 
             this.lbQuestion.Location = new System.Drawing.Point(12, 9);
             this.lbQuestion.Name = "lbQuestion";
-            this.lbQuestion.Size = new System.Drawing.Size(378, 100);
+            this.lbQuestion.Size = new System.Drawing.Size(378, 90);
             this.lbQuestion.TabIndex = 2;
             this.lbQuestion.Text = "Please neter the number";
             // 
-            // NumberInputDialog
+            // lbErrMessage
+            // 
+            this.lbErrMessage.AutoSize = true;
+            this.lbErrMessage.ForeColor = System.Drawing.Color.Red;
+            this.lbErrMessage.Location = new System.Drawing.Point(15, 103);
+            this.lbErrMessage.Name = "lbErrMessage";
+            this.lbErrMessage.Size = new System.Drawing.Size(46, 17);
+            this.lbErrMessage.TabIndex = 3;
+            this.lbErrMessage.Text = "label1";
+            this.lbErrMessage.Visible = false;
+            // 
+            // FloorNumberInputDialog
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(405, 197);
+            this.Controls.Add(this.lbErrMessage);
             this.Controls.Add(this.lbQuestion);
             this.Controls.Add(this.nudUserInput);
             this.Controls.Add(this.btnOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "NumberInputDialog";
+            this.Name = "FloorNumberInputDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NumberInputDialog";
             ((System.ComponentModel.ISupportInitialize)(this.nudUserInput)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -82,5 +101,6 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.NumericUpDown nudUserInput;
         private System.Windows.Forms.Label lbQuestion;
+        private System.Windows.Forms.Label lbErrMessage;
     }
 }

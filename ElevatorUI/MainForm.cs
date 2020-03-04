@@ -338,7 +338,7 @@ namespace ElevatorUI
         /// <param name="e"></param>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _session.Commit();
+            _session?.Commit();
         }
     }
 }

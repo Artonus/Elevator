@@ -40,9 +40,12 @@ namespace ElevatorCore.Dialogs
         private void btnOk_Click(object sender, EventArgs e)
         {
             // check if it is valid input
-            if (nudUserInput.Value == default || nudUserInput.Value < AppSettings.MinimumFloorCount)
+            if (nudUserInput.Value < AppSettings.MinimumFloorCount)
             {
-                //TODO: Inform user about wrong input
+                
+                lbErrMessage.Visible = true;
+                lbErrMessage.Text =
+                    $"Please enter the number of floors that is greater or equal {AppSettings.MinimumFloorCount}";
                 return;
             }
 
